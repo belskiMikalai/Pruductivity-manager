@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <main class="px-md-5 py-md-3">
+        <div class="row mx-auto border rounded-5 my-3 mt-md-5 p-md-4" style="width: 65%;">
+            <div class="col-md-7 ">
+                <h4 class="text-center mt-3">
+                    Productivity Manager
+                </h4>
+                <img class="img-fluid" src="{{ url_for('static', filename='people.png') }}" alt="people">
+            </div>
+            <div class="col-lg-5 px-4 px-lg-5 mb-3 align-self-center">
+                {% block auth %}
+                {% endblock %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

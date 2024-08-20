@@ -1,0 +1,28 @@
+{% extends "auth-base.html" %}
+
+{% block titile %}
+    Register - Productivity Manager
+{% endblock %}
+
+{% block auth %}
+    <form method="post" >
+        <h4 class="mb-2">Register</h4>
+        <div class="mb-2">
+            {{ form.username.label }}
+            <label for="name" class="form-label">Name</label>
+            <input required max="255" type="text" class="form-control p-1" id="name" name="name" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="password" class="form-label">Password</label>
+            <input required max="255" min="8" type="password" class="form-control p-1" id="password" name="password">
+        </div>
+        <div class="mb-2">
+            <label for="conf-password" class="form-label">Confirm Password</label>
+            <input required max="255" min="8" type="password" class="form-control p-1" id="conf-password" name="conf-password">
+        </div>
+        <div class="mb-2">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+{% endblock %}

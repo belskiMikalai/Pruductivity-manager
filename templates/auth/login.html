@@ -1,0 +1,23 @@
+{% extends "auth-base.html" %}
+
+{% block titile %}
+   Login - Productivity Manager
+{% endblock %}
+
+{% block auth %}
+    <form method="post" >
+        <h4 class="mb-2">Login</h4>
+        <div class="mb-2">
+            <label for="name" class="form-label">Name</label>
+            <input required max="255" type="text" class="form-control p-1" id="name" name="name" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="password" class="form-label">Password</label>
+            <input required max="255" min="8" type="password" class="form-control p-1" id="password" name="password">
+        </div>
+        <div class="mb-2">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+{% endblock %}
