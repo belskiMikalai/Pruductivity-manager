@@ -23,13 +23,20 @@ class MyTask(db.Model):
                 return f"Task {self.id}"
 
 class RegistrationForm(FlaskForm):
-        username = StringField(validators=[InputRequired(), Length(
-                min=4, max=20)], render_kw={"placeholder": "Username"})
+        username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'autofocus': True})
         
-        password = PasswordField(validators=[InputRequired(), Length(
-                min=4, max=20)], render_kw={"placeholder": "Password"})
+        password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)])
+        
+        confirm_password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)])
         
         submit = SubmitField("Register")
+
+        def validate_password(self, password, confirm):
+                if password != confirm:
+                        raise ValidationError(
+                                "Passswords must be the same."
+                        )
+
 
         def validate_username(self, username):
                 existing_user_username = User.query.filter_by(
@@ -40,11 +47,9 @@ class RegistrationForm(FlaskForm):
                               "That username already exists. Please choose a different one."
                        )
 class LoginForm(FlaskForm):
-        username = StringField(validators=[InputRequired(), Length(
-                min=4, max=20)], render_kw={"placeholder": "Username"})
+        username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'autofocus': True})
         
-        password = PasswordField(validators=[InputRequired(), Length(
-                min=4, max=20)], render_kw={"placeholder": "Password"})
+        password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)])
         
         submit = SubmitField("Login")
 
@@ -55,12 +60,12 @@ def index():
 @app.route('/register', methods=['POST', 'GET'])
 def register():
         form = RegistrationForm()
-        return render_template("auth/register.html")
+        return render_template("auth/register.html", form=form)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
         form = LoginForm()
-        return render_template("auth/login.html")
+        return render_template("auth/login.html", form=form)
 
 if __name__ == "__main__":
         with app.app_context():
