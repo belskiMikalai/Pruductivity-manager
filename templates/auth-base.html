@@ -10,6 +10,13 @@
                 <img class="img-fluid" src="{{ url_for('static', filename='people.png') }}" alt="people">
             </div>
             <div class="col-md-5 px-4 px-md-5 mb-3 align-self-center">
+                {% if form.errors %}
+                <ul class="list-group">
+                {% for error in form.errors %}
+                    <li class="list-group-item list-group-item-warning border border-warning rounded-0">{{ error }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
                 {% block auth %}
                 {% endblock %}
             </div>

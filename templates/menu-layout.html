@@ -2,16 +2,44 @@
 
 {% block body %}
     <header class="container">
-        <nav class="nav fixed-top bg-light p-3 border-bottom border-body flex-row align-items-center">
-            <a class="navbar-brand" href="#">TODO</a>
-            <a href="#" class="nav-link bg-secondary bg-opacity-10 rounded p-1 text-center focus-ring border border-opacity-10 border-white ms-auto" width="50px" height="50px">
+        <nav class="nav fixed-top bg-light p-3 border-bottom border-body align-items-center">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Productivity Manager</a>
+            <a href="#" class="nav-link bg-secondary bg-opacity-10 rounded p-1 text-center focus-ring border border-opacity-10 border-white ms-auto" width="50px" height="50px" data-bs-toggle="modal" data-bs-target="#addGoal" id="add">
                 <i class="fa-solid fa-plus fa-xl text-secondary mx-auto"></i>          
             </a>
+            <div class="modal" id="addGoal" tabindex="-1" aria-labelledby="addGoalLabel" aria-hidden="true" data-bs-backdrop="false">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Enter Goal</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        {% if form.errors %}
+                            <ul class="list-group">
+                            {% for error in form.errors %}
+                                <li class="list-group-item list-group-item-warning border border-warning rounded-0">{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <form method="post" action="/">
+                            {{ form.hidden_tag() }}
+                            <div class="modal-body">
+                                {{ form.your_goal(class="form-control") }}
+                            </div>
+                            <div class="modal-footer">
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </nav>
     </header>
-    <main class="p-5 mt-5">
-        {% block main %}
+    <main class="p-5 mt-5" id="main">
+        <div class="grid">
+            {% block main %}
 
-        {% endblock %}
+            {% endblock %}    
+        </div>
     </main>
 {% endblock %}
