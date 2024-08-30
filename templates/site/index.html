@@ -4,13 +4,41 @@
     Main page - Productivity Manager
 {% endblock %}
 
-{% block content %}
-    <section>
-        <div class="form-check">
-            <input class="form-check-input m-4" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">
-                Test TODO
-            </label>
-        </div>
-    </section>
+{% block main %}
+    {% for goal in goals %}
+    <div>
+        <article class="card">
+            <div class="card-header">
+                {{ goal[1].name}}
+            </div>
+            <form>
+                <ul class="list-group list-group-flush">
+                    {% for task in tasks %}
+                        {% if task[0].goal_id == goal[1].id %}
+                            <li class="list-group-item">
+                                <form>
+                                    <input name="id" type="hidden" value="{{ task[0].id }}">
+                                    {% if task[0].is_complete %}
+                                        <input checked class="form-check-input me-1" type="checkbox"  value="task" name="checkbox" id="{{ task[0].id }}"> 
+                                    {% else %}
+                                        <input type="checkbox" class="form-check-input me-1"  value="task" name="checkbox" id="{{ task[0].id }}"> 
+                                    {% endif %}
+                                    <label class="form-check-label stretched-link d-inline" for="{{ task[0].id }}"> {{ task[0].content }} </label>
+                                </form>
+                            </li>
+                        {% endif%}
+                    {% endfor %}
+                </ul>
+            </form>
+            <div class="card-footer">
+                <form class="text-end">
+                    <input name="id" type="hidden" value="{{ goal[1].id }}">
+                    <button type="button" value="delete" class="btn btn-outline-danger">&#10005;</button>
+                </form>
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+
 {% endblock %}
