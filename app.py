@@ -76,32 +76,23 @@ class Task(db.Model):
 class Goal(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         name = db.Column(db.String(75), nullable=False)
-
 class RegistrationForm(FlaskForm):
         username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'autofocus': True})
-        
         password = PasswordField(validators=[InputRequired(), Length(min=4, max=20), EqualTo('confirm_password', 'Passwords must match')])
-        
         confirm_password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)])
-        
         submit = SubmitField("Register")
 
         def validate_username(self, username):
                 existing_user_username = User.query.filter_by(
                         username=username.data).first()
-                
                 if existing_user_username:
                        raise ValidationError("That username already exists. Please choose a different one.")
 class LoginForm(FlaskForm):
         username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'autofocus': True})
-        
         password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)])
-        
         submit = SubmitField("Login")
-
 class GoalForm(FlaskForm):
         your_goal = StringField(validators=[InputRequired(), Length(min=1, max=100)], render_kw={'autofocus': True})
-        
         submit = SubmitField("Submit")
 
 @app.route('/', methods=['POST', 'GET'])
@@ -109,13 +100,13 @@ class GoalForm(FlaskForm):
 def index():
         task_goals = db.session.query(Task, Goal).join(Task, Goal.id == Task.goal_id).filter(Task.user_id == current_user.id)
         goals = task_goals.group_by(Goal.name).all()
-        tasks = task_goals.all() 
+        tasks = task_goals.all()
         print(current_user.id)
 
         form = GoalForm()
         if form.validate_on_submit():
                 response = model.generate_content(form.your_goal.data)
-                if response: 
+                if response:
                         new_goal = Goal(name=form.your_goal.data)
                         db.session.add(new_goal)
                         db.session.commit()
@@ -162,7 +153,6 @@ def register():
 
                 login_user(new_user, remember=True)
                 return redirect(url_for('index'))
-        
         return render_template("auth/register.html", form=form)
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -174,7 +164,6 @@ def login():
                         if bcrypt.check_password_hash(user.password, form.password.data):
                                 login_user(user, remember=True)
                                 return redirect(url_for('index'))
-        
         return render_template("auth/login.html", form=form)
 
 @app.route('/logout')
@@ -182,7 +171,6 @@ def login():
 def logout():
         logout_user()
         return redirect(url_for('login'))
-        
 
 if __name__ == "__main__":
         with app.app_context():
