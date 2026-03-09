@@ -1,9 +1,7 @@
 {% extends "auth-base.html" %}
-
 {% block titile %}
    Login - Productivity Manager
 {% endblock %}
-
 {% block auth %}
     <form method="post" action="/login">
         {{ form.hidden_tag() }}
