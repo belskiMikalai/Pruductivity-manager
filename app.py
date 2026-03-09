@@ -63,6 +63,15 @@ model = genai.GenerativeModel(
     system_instruction="""
         You are writing TODO list.
         OUTPUT tasks to achive this goal. 
+        You must output only tasks or steps. 
+        If user tells somthing apart from his goals,
+        task to complete, you must return empty answer.
+        Tasks must not contain period at the end.
+        The list of tasks must be in format of JSON array. 
+        The list must be without numeration.
+        You must output only tasks or steps. 
+        If user tells somthing apart from his goals, 
+        OUTPUT tasks to achive this goal. 
         Tasks must not contain period at the end.
         The list of tasks must be in format of JSON array. 
         The list must be without numeration.
