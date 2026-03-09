@@ -60,10 +60,13 @@ model = genai.GenerativeModel(
 def load_user(user_id):
         return User.query.get(int(user_id))
 
+
 class User(db.Model, UserMixin):
         id = db.Column(db.Integer, primary_key=True)
         username = db.Column(db.String(20), nullable=False, unique=True)
         password = db.Column(db.String(80), nullable=False)
+
+
 class Task(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         content = db.Column(db.String(100), nullable=False)
@@ -73,9 +76,13 @@ class Task(db.Model):
 
         def __repr__(self) -> str:
                 return f"Task {self.id}"
+
+
 class Goal(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         name = db.Column(db.String(75), nullable=False)
+
+
 class RegistrationForm(FlaskForm):
         username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'autofocus': True})
         password = PasswordField(validators=[InputRequired(), Length(min=4, max=20), EqualTo('confirm_password', 'Passwords must match')])
@@ -87,13 +94,17 @@ class RegistrationForm(FlaskForm):
                         username=username.data).first()
                 if existing_user_username:
                        raise ValidationError("That username already exists. Please choose a different one.")
+
+
 class LoginForm(FlaskForm):
         username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'autofocus': True})
         password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)])
         submit = SubmitField("Login")
+
 class GoalForm(FlaskForm):
         your_goal = StringField(validators=[InputRequired(), Length(min=1, max=100)], render_kw={'autofocus': True})
         submit = SubmitField("Submit")
+
 
 @app.route('/', methods=['POST', 'GET'])
 @login_required
@@ -120,6 +131,7 @@ def index():
 
         return render_template("site/index.html", form=form, goals=goals, tasks=tasks)
 
+
 @app.route('/complete_task', methods=['POST', 'GET'])
 @login_required
 def complete_task():
@@ -129,6 +141,7 @@ def complete_task():
         return {
             'response' : '(un)checked!'
         }
+
 
 @app.route('/delete', methods=['POST', 'GET'])
 @login_required
@@ -140,6 +153,7 @@ def delete():
         return {
             'response' : 'deleted!'
         }
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -155,6 +169,7 @@ def register():
                 return redirect(url_for('index'))
         return render_template("auth/register.html", form=form)
 
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
         form = LoginForm()
@@ -165,6 +180,7 @@ def login():
                                 login_user(user, remember=True)
                                 return redirect(url_for('index'))
         return render_template("auth/login.html", form=form)
+
 
 @app.route('/logout')
 @login_required
