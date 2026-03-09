@@ -1,9 +1,7 @@
 {% extends "menu-layout.html" %}
-
 {% block title %}
     Main page - Productivity Manager
 {% endblock %}
-
 {% block main %}
     {% for goal in goals %}
     <div>
@@ -40,5 +38,4 @@
     </div>
     {% endfor %}
     <script src="{{ url_for('static', filename='script.js')}}"></script>
-
 {% endblock %}
